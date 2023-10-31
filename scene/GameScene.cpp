@@ -11,9 +11,17 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	model_.reset(Model::Create());
+	viewprojection_.Initialize();
+	textureHandle_ = TextureManager::Load("cube/cube.jpg");
+	player_ = std::make_unique<Player>();
+	player_->Initialize(model_.get(), textureHandle_);
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	player_->Update();
+	viewprojection_.UpdateMatrix();
+}
 
 void GameScene::Draw() {
 
@@ -37,6 +45,8 @@ void GameScene::Draw() {
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
+
+	player_->Draw(viewprojection_);
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
