@@ -16,6 +16,7 @@ void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("cube/cube.jpg");
 	player_ = std::make_unique<Player>();
 	player_->Initialize(model_.get(), textureHandle_);
+
 }
 
 void GameScene::Update() {
